@@ -5,9 +5,13 @@ import React, { Component } from "react";
 class Counter extends Component {
   //state is a special object of a class which stores variables or/and objects related to the class
 
-  state = {
-    value: this.props.counter.value
-  };
+  // state = {
+  //   value: this.props.counter.value
+  // };
+  //removing the state object and completely relying on the props object
+  // so that this counter component becomes a controlled component
+  // and there is one source of truth
+
   // constructor() {
   //   super();
   //   this.increment = this.increment.bind(this);
@@ -26,7 +30,7 @@ class Counter extends Component {
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
           onClick={() => {
-            this.increment({ id: this.props.id });
+            this.props.onIncrement(this.props.counter);
           }}
           className="btn btn-secondary btn-sm"
         >
@@ -52,23 +56,20 @@ class Counter extends Component {
   }
   /*the arrow function helps us by binding this automatically
   or else we can use the constructor and then bind*/
-  increment = product => {
-    console.log("clicked", product.id);
-    this.setState({ value: this.state.value + 1 });
-  };
+  // increment = product => {
+  //   console.log("clicked", product.id);
+  //   this.setState({ value: this.state.value + 1 });
+  // };
+  //removed it as we have removed the state object itself
 
   getBadgeClasses() {
     let classes = "badge m-2 badge-";
-    classes += this.state.value === 0 ? "warning" : "primary";
+    classes += this.props.counter.value === 0 ? "warning" : "primary";
     return classes;
   }
 
-  // formatCount() {
-  //   //const { value } = this.state; //peeking the "value" from this.state
-  //   return this.state.value === 0 ? "zero" : this.state.value;
-  // }
   formatCount() {
-    const { value } = this.state;
+    const { value } = this.props.counter; //peeking the "value" from this.props.counter
     return value === 0 ? "Zero" : value;
   }
 }
